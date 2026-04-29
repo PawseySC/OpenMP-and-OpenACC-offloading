@@ -1,5 +1,5 @@
 #!/bin/bash --login 
-#SBATCH --reservation=CurtinHPCcourse2026
+#SBATCH --reservation=CurtinHPCcourse2026-gpu
 #SBATCH --account=courses0100-gpu
 #SBATCH --tasks=1 
 #SBATCH --gpus-per-node=8
