@@ -4,6 +4,7 @@
 #SBATCH --tasks=1 
 #SBATCH --gpus-per-node=8
 #SBATCH --partition=gpu
+#SBATCH --exclusive
 #SBATCH --time=00:05:00 
 #SBATCH --export=NONE
 module load rocm/6.3.0
