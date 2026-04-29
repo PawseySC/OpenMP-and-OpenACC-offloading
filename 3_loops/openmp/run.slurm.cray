@@ -1,5 +1,5 @@
 #!/bin/bash --login 
-#SBATCH --reservation=CurtinHPCcourse2025
+#SBATCH --reservation=CurtinHPCcourse2026
 #SBATCH --account=courses0100
 #SBATCH --tasks=1 
 #SBATCH --partition=work 
@@ -7,7 +7,7 @@
 #SBATCH --export=NONE
 module purge
 module load craype-x86-milan
-module load PrgEnv-cray/8.3.3
+module load PrgEnv-cray/8.6.0
 # Compile
 echo "Compiling code with CRAY"
 srun --export=all -u -n 1 make -f makefile clean
