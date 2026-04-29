@@ -1,5 +1,5 @@
 CC=/opt/rocm/llvm/bin/clang
-CFLAGS=-O3 -fopenmp --offload-arch=gfx90a
+CFLAGS=-O3 -fopenmp --offload-arch=gfx90a -lm
 LIBS=
 OBJ=laplace.o
 TARGET=laplace
