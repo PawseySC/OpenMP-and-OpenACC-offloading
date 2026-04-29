@@ -9,6 +9,9 @@
 #SBATCH --export=NONE
 module load rocm/6.3.0
 module load craype-accel-amd-gfx90a
+
+export OMP_NUM_THREADS=8
+
 # Compile
 echo "Compiling code with clang"
 srun --export=all -u -n 1 make -f makefile.clang clean
