@@ -56,6 +56,27 @@ for(i = 1; i <= GRIDX; i++){
     }
 }
 ```
+The OpenACC equivalent of this section will be:
+```c
+// main computational kernel, average over neighbours in the grid
+#pragma acc parallel loop collapse(2) present(T, T_new)
+for(i = 1; i <= GRIDX; i++)
+    for(j = 1; j <= GRIDY; j++)
+        T_new[i][j] = 0.25 * (T[i+1][j] + T[i-1][j] +
+                              T[i][j+1] + T[i][j-1]);
+
+// reset dt
+dt = 0.0;
+
+// compute the largest change and copy T_new to T
+#pragma acc parallel loop collapse(2) present(T, T_new) reduction(max:dt)
+for(i = 1; i <= GRIDX; i++){
+    for(j = 1; j <= GRIDY; j++){
+        dt = MAX(fabs(T_new[i][j] - T[i][j]), dt);
+        T[i][j] = T_new[i][j];
+    }
+}
+```
 ### Important notes
 1. In the case of the second loop nest we are also specifying that there is a reduction on *dt* variable by adding *reduction(max:dt)* clause,
 2. We are also manually specifying that variable *dt* needs to be mapped between host and device data environments. This will be discussed in the next step of the tutorial, for now we should just keep in mind that in OpenMP scalar variables that are not explicitly mapped are implicitly mapped as **firstprivate**.
