@@ -3,7 +3,7 @@ title: "Data management"
 teaching: 15
 exercises: 15
 questions:
-- "Usage of OpenMP data mapping directives"
+- "Usage of OpenMP/OpenACC data mapping/copy directives"
 objectives:
 - "Perform basic profiling of GPU events"
 - "Apply data transfer OpenMP directives to improve the performance of the code"
@@ -50,12 +50,14 @@ We can achieve it in OpenMP with the use of *omp target data* directive placed r
 while ( dt > MAX_TEMP_ERROR && iteration <= max_iterations ) {
 ```
 
-| OpenMP data construct |
-| ---------------- |
-| map(to:A)        |
-| map(from:A)      |
-| map(tofrom:A)    |
-| map(alloc:A)     |
+There is actually a one to one mapping between OpenMP and OpenACC data transfer constructs.
+
+| OpenMP construct | OpenACC construct | 
+| ---------------- | ----------------- | 
+| map(to:A)        | copyin(A)         | 
+| map(from:A)      | copyout(A)        | 
+| map(tofrom:A)    | copy(A)           | 
+| map(alloc:A)     | create(A)         | 
 
 Let's run the *rocprof* profiling again on the OpenMP version.
 ```bash
@@ -90,4 +92,16 @@ for(i = 1; i <= GRIDX; i++){
       T[i][j] = T_new[i][j];
     }
 }
+```
+The OpenACC equivalent of this section will be:
+```c
+// compute the largest change and copy T_new to T
+#pragma acc parallel loop collapse(2) copy(T[0:GRIDX+2][0:GRIDY+2]) copyin(T_new[0:GRIDX+2][0:GRIDY+2]) reduction(max:dt)
+for(i = 1; i <= GRIDX; i++){
+    for(j = 1; j <= GRIDY; j++){
+        dt = MAX(fabs(T_new[i][j] - T[i][j]), dt);
+        T[i][j] = T_new[i][j];
+    }
+}
+In OpenACC, you usually do not write an explicit equivalent for dt when it is used in a reduction.
 ```
