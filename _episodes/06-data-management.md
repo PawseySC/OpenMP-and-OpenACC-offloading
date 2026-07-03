@@ -103,5 +103,5 @@ for(i = 1; i <= GRIDX; i++){
         T[i][j] = T_new[i][j];
     }
 }
-In OpenACC, you usually do not write an explicit equivalent for dt when it is used in a reduction.
 ```
+In OpenACC, you usually do not write an explicit equivalent for dt when it is used in a reduction.
