@@ -1,6 +1,6 @@
 #!/bin/bash --login 
-#SBATCH --reservation=CurtinHPCcourse2026
-#SBATCH --account=courses0100
+#SBATCH --reservation=HPCUniofMelbourne
+#SBATCH --account=courses01
 #SBATCH --tasks=1 
 #SBATCH --partition=work 
 #SBATCH --time=00:05:00 
