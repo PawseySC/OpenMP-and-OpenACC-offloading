@@ -1,6 +1,6 @@
 #!/bin/bash --login 
-#SBATCH --reservation=CurtinHPCcourse2026-gpu
-#SBATCH --account=courses0100-gpu
+#SBATCH --reservation=HPCUniofMelbourne-gpu
+#SBATCH --account=courses01-gpu
 #SBATCH --tasks=1 
 #SBATCH --gpus-per-node=8
 #SBATCH --partition=gpu
