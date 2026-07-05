@@ -96,7 +96,7 @@ for(i = 1; i <= GRIDX; i++){
 The OpenACC equivalent of this section will be:
 ```c
 // compute the largest change and copy T_new to T
-#pragma acc parallel loop collapse(2) copy(T[0:GRIDX+2][0:GRIDY+2]) copyin(T_new[0:GRIDX+2][0:GRIDY+2]) reduction(max:dt)
+#pragma acc parallel loop collapse(2) present(T,T_new) reduction(max:dt)
 for(i = 1; i <= GRIDX; i++){
     for(j = 1; j <= GRIDY; j++){
         dt = MAX(fabs(T_new[i][j] - T[i][j]), dt);
