@@ -1,0 +1,14 @@
+FC=ftn
+FFLAGS=-O3 -hacc -hlist=m
+LIBS=
+OBJ=laplace_acc.o
+TARGET=laplace_acc_f
+
+%.o: %.f90
+	$(FC) $(FFLAGS) -c -o $@ $<
+
+$(TARGET): $(OBJ)
+	$(FC) $(FFLAGS) $(LIBS) -o $@ $^
+
+clean:
+	rm -f $(TARGET) *.o

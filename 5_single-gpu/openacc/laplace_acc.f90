@@ -27,6 +27,7 @@
        call init(GRIDX,GRIDY,T)
 
 !      Keep arrays on the GPU for the whole iterative section
+!$acc data copy(T) create(T_new)
 
 !      simulation iterations
        do while ((dt.gt.MAX_TEMP_ERROR).and. &
@@ -36,7 +37,7 @@
           dt=0.0d0
 
 !         main computational kernel, average over neighbours in the grid
-!$acc parallel loop collapse(2) 
+!$acc parallel loop collapse(2) present(T,T_new)
           do j=2,GRIDY+1
              do i=2,GRIDX+1
                 T_new(i,j)=0.25d0*(T(i+1,j)+T(i-1,j)+T(i,j+1)+T(i,j-1))
@@ -44,7 +45,7 @@
           end do
 
 !         compute the largest change and copy T_new to T
-!$acc parallel loop collapse(2) reduction(max:dt)
+!$acc parallel loop collapse(2) present(T,T_new) reduction(max:dt)
           do j=2,GRIDY+1
              do i=2,GRIDX+1
                 dt = max(abs(T_new(i,j)-T(i,j)),dt)
@@ -59,6 +60,8 @@
 
           iteration=iteration+1
        end do
+
+!$acc end data
 
        call system_clock(count=stop_time)
        elapsed_time=real(stop_time-start_time)/real(clock_rate)
