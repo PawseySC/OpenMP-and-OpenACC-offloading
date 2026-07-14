@@ -1,0 +1,14 @@
+FC= ftn
+FFLAGS=-O3 -homp 
+LIBS=
+OBJ=laplace.o
+TARGET=laplacef
+
+%.o: %.f90
+	$(FC) $(FFLAGS) -c -o $@ $<
+
+$(TARGET): $(OBJ)
+	$(FC) $(FFLAGS) $(LIBS) -o $@ $^
+
+clean:
+	rm -f $(TARGET) *.o

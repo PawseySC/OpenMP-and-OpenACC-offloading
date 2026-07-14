@@ -7,15 +7,16 @@
 #SBATCH --exclusive
 #SBATCH --time=00:05:00 
 #SBATCH --export=NONE
+module load PrgEnv-cray/8.6.0
 module load rocm/6.3.0
 module load craype-accel-amd-gfx90a
 # Compile
 echo "Compiling code with clang"
 srun --export=all -u -n 1 make -f makefile.clang clean
 srun --export=all -u -n 1 make -f makefile.clang
-echo "Compiling code with flang"
-srun --export=all -u -n 1 make -f makefile.flang clean
-srun --export=all -u -n 1 make -f makefile.flang
+echo "Compiling code with ftn"
+srun --export=all -u -n 1 make -f makefile.ftn clean
+srun --export=all -u -n 1 make -f makefile.ftn
 # Run
 echo
 echo "Running the c code"
