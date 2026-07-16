@@ -7,7 +7,8 @@
 #SBATCH --exclusive
 #SBATCH --time=00:05:00 
 #SBATCH --export=NONE
-module load PrgEnv-cray/8.6.0
+#SBATCH --nodelist=nid002874
+#SBATCH --exclude=nid002164
 module load rocm/6.3.0
 module load craype-accel-amd-gfx90a
 
